@@ -1,0 +1,8 @@
+{
+  "name": "registration-app",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "dependencies": {
+    "mongodb": "^5.7.0"
+  }
+}
