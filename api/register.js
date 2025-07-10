@@ -7,12 +7,22 @@ let db = null;
 async function connectDB() {
   if (!db) {
     await client.connect();
-    db = client.db("registrationDB"); // change the name if needed
+    db = client.db("registrationDB");
   }
   return db;
 }
 
 module.exports = async (req, res) => {
+  // Add CORS headers
+  res.setHeader("Access-Control-Allow-Origin", "*"); // You can restrict this to a specific domain later
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // Handle preflight OPTIONS request
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
@@ -31,7 +41,12 @@ module.exports = async (req, res) => {
       return res.status(409).json({ message: "Email already registered" });
     }
 
-    await db.collection("users").insertOne({ name, email, password, createdAt: new Date() });
+    await db.collection("users").insertOne({
+      name,
+      email,
+      password,
+      createdAt: new Date(),
+    });
 
     res.status(200).json({ message: "Registration successful" });
   } catch (err) {
