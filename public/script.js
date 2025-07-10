@@ -1,3 +1,8 @@
+
+
+// Replace with your actual backend endpoint on Vercel
+const backendUrl = "https://registration-for-serverless.vercel.app/api/register";
+
 document.getElementById("registerForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = e.target;
@@ -8,7 +13,7 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
   };
 
   try {
-    const res = await fetch("/api/register", {
+    const res = await fetch(backendUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
